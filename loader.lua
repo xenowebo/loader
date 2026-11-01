@@ -66,7 +66,49 @@ local currentExecutor = detectCurrentExecutor()
 
 local startTime = os.time()
 
+local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
 
+local fpsCount = 0
+
+RunService.Heartbeat:Connect(function()
+    fpsCount = fpsCount + 1
+end)
+
+local SupportedGames = {
+    [10901242398] = "No Limit Strongest Punch Simulator",
+    [286090429]   = "Arsenal",
+    [17424681530] = "Beat Obbies for Noobs",
+    [10694086657] = "[350] Find the Noobs",
+    [4510014022]  = "Ninja Legends",
+    [3101667897]  = "Legends of Speed",
+    [188814234]   = "Natural Disaster Survival",
+    [16140645601] = "Just a Baseplate"
+}
+
+local function getGameDetails()
+    local currentPlaceId = game.PlaceId
+    local gameName = SupportedGames[currentPlaceId]
+
+    if not gameName then
+        local MarketPlaceService = game:GetService("MarketplaceService")
+        local success, info = pcall(function() 
+            return MarketPlaceService:GetProductInfo(currentPlaceId) 
+        end)
+        
+        if success and info and info.Name then
+            gameName = info.Name .. " (Universal Mode)"
+        else
+            gameName = "Universal Mode"
+        end
+    end
+    return gameName, currentPlaceId
+end
+
+local detectedGame, placeId = getGameDetails()
+
+local Players = game:GetService("Players")
 --//__________________________________________________\\----//__________________________________________________\\----//__________________________________________________\\--
 
 local Tab = Window:MakeTab({
@@ -82,8 +124,84 @@ Tab:AddParagraph(
 
 local timeParagraph = Tab:AddParagraph(
 	"Time⏳",
-	"Calculating uptime..."
+	"Calculating..."
 )
+--//__________________________________________________\\----//__________________________________________________\\----//__________________________________________________\\--
+task.spawn(function()
+    while task.wait(1) do
+        local elapsed = os.time() - startTime
+
+        local hours = math.floor(elapsed / 3600)
+        local minutes = math.floor((elapsed % 3600) / 60)
+        local seconds = elapsed % 60
+        local timeString = string.format("%02dh:%02dm:%02ds", hours, minutes, seconds)
+
+        timeParagraph:Set(
+            "Play Time: " .. timeString,
+            "Play Time: " .. timeString
+        )
+    end
+end)
+--//__________________________________________________\\----//__________________________________________________\\----//__________________________________________________\\--
+
+local performanceParagraph = Tab:AddParagraph(
+    "FPS AND Ping📶",
+    "FPS: Calculating... \nPing: Calculating..."
+)
+--//__________________________________________________\\----//__________________________________________________\\----//__________________________________________________\\--
+task.spawn(function()
+    while task.wait(1) do
+        local currentPing = "N/A"
+        if LocalPlayer then
+            local success, result = pcall(function() 
+                return LocalPlayer:GetNetworkPing() 
+            end)
+            if success then
+                currentPing = string.format("%.0f ms", result * 1000)
+            end
+        end
+
+        performanceParagraph:Set(
+            "FPS: " .. tostring(fpsCount) .. "\nPing: " .. currentPing,
+            "FPS: " .. tostring(fpsCount) .. "\nPing: " .. currentPing
+        )
+
+        fpsCount = 0
+    end
+end)
+--//__________________________________________________\\----//__________________________________________________\\----//__________________________________________________\\--
+
+Tab:AddParagraph(
+    "Game PlaceID🎮",
+    "Current Game: " .. detectedGame .. "\nPlace ID: " .. tostring(placeId)
+)
+
+local serverParagraph = Tab:AddParagraph(
+    "Server Stats",
+    "Calculating server age..."
+)
+--//__________________________________________________\\----//__________________________________________________\\----//__________________________________________________\\--
+task.spawn(function()
+    while task.wait(1) do
+        local serverTime = math.floor(workspace.DistributedGameTime)
+
+        local hours = math.floor(serverTime / 3600)
+        local minutes = math.floor((serverTime % 3600) / 60)
+        local seconds = serverTime % 60
+        local ageString = string.format("%02dh:%02dm:%02ds", hours, minutes, seconds)
+        
+        local activePlayers = #Players:GetPlayers()
+        local maxLobbySize = Players.MaxPlayers
+
+        serverParagraph:Set(
+            "Server Age: " .. ageString .. 
+            "\nPlayers In Lobby: " .. tostring(activePlayers) .. "/" .. tostring(maxLobbySize),
+            "Server Age: " .. ageString .. 
+            "\nPlayers In Lobby: " .. tostring(activePlayers) .. "/" .. tostring(maxLobbySize)
+        )
+    end
+end)
+--//__________________________________________________\\----//__________________________________________________\\----//__________________________________________________\\--
 
 local Tab = Window:MakeTab({
 	Name = "Universal 🌍",
@@ -214,7 +332,7 @@ Tab:AddButton({
 	Name = "Arsenal",
 	Callback = function()
       		Loadscript("Arsenal.lua")
-			  Xen0UI:Destroy()
+			Xen0UI:Destroy()
   	end    
 })
 
@@ -222,7 +340,7 @@ Tab:AddButton({
 	Name = "Beat Obby For Noobs",
 	Callback = function()
       		Loadscript("SpeedJumpGUI.lua")
-			  Xen0UI:Destroy()
+			Xen0UI:Destroy()
   	end    
 })
 
@@ -230,7 +348,7 @@ Tab:AddButton({
 	Name = "[350] Find The Noobs",
 	Callback = function()
       		Loadscript("FindTheNoobs.lua")
-			  Xen0UI:Destroy()
+			Xen0UI:Destroy()
   	end    
 })
 
@@ -246,7 +364,7 @@ Tab:AddButton({
 	Name = "Ninja Legends",
 	Callback = function()
       		Loadscript("NinjaLegends.lua")
-			  Xen0UI:Destroy()
+			Xen0UI:Destroy()
   	end    
 })
 
@@ -254,7 +372,7 @@ Tab:AddButton({
 	Name = "NO LIMIT STRONGEST PUNCH SIMULATOR",
 	Callback = function()
       		Loadscript("NoLimitStrongestPunchSimulator.lua")
-			  Xen0UI:Destroy()
+			Xen0UI:Destroy()
   	end    
 })
 
@@ -262,13 +380,16 @@ Tab:AddButton({
 	Name = "Natural Disaster Survival",
 	Callback = function()
       		Loadscript("Orbitium.lua")
-			  Xen0UI:Destroy()
+			Xen0UI:Destroy()
   	end    
 })
 
 Tab:AddButton({
 	Name = "Destroy GUI",
 	Callback = function()
-			  Xen0UI:Destroy()
+			Xen0UI:Destroy()
   	end    
 })
+
+--DO NOT THIS IS A SKID THIS SCRIPT WAS MADE BY StarCodeHailkuato, blixxARSENAL, blixxEXE, Xen0Scripture--
+print("DO NOT THIS IS A SKID THIS SCRIPT WAS MADE BY StarCodeHailkuato, blixxARSENAL, blixxEXE, Xen0Scripture")
