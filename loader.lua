@@ -7,6 +7,7 @@ local Window = Xen0UI:MakeWindow({
 	ConfigFolder = "OrionTest"
 })
 
+--//__________________________________________________\\----//__________________________________________________\\----//__________________________________________________\\--
 local rawfile = "https://raw.githubusercontent.com/xenowebo/lua/main/"
 
 local function Loadscript(file)
@@ -19,6 +20,70 @@ local function Loadscript(file)
 
     return func()
 end
+
+local function detectCurrentExecutor()
+    local name, version = "Unknown", "N/A"
+    
+    if identifyexecutor then
+        name, version = identifyexecutor()
+    elseif nexomia then 
+        name = "Nexomia"
+    elseif solara then
+        name = "Solara"
+    elseif wave then
+        name = "Wave"
+    elseif XENO_LOADED or xeno then
+        name = "Xeno"
+    elseif potassium then
+        name = "Potassium"
+    elseif real then
+        name = "Real Executor"
+    elseif synapsez or sz or synz then
+        name = "Synapse Z"
+    elseif essential then
+        name = "Essential"
+    elseif volt then
+        name = "Volt"
+    elseif getexecutorname then
+        name = getexecutorname()
+    elseif syn then
+        name = "Synapse"
+    elseif Krnl then
+        name = "KRNL"
+    elseif fluxus then
+        name = "Fluxus"
+    elseif IsElectron then
+        name = "Electron"
+    end
+    
+    if version and version ~= "N/A" then
+        return name .. " (" .. version .. ")"
+    end
+    return name
+end
+
+local currentExecutor = detectCurrentExecutor()
+
+local startTime = os.time()
+
+
+--//__________________________________________________\\----//__________________________________________________\\----//__________________________________________________\\--
+
+local Tab = Window:MakeTab({
+	Name = "Stats📊",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+Tab:AddParagraph(
+	"Executor📝",
+	"Running on: " .. currentExecutor
+)
+
+local timeParagraph = Tab:AddParagraph(
+	"Time⏳",
+	"Calculating uptime..."
+)
 
 local Tab = Window:MakeTab({
 	Name = "Universal 🌍",
@@ -64,10 +129,29 @@ Tab:AddButton({
       		Loadscript("FPSCounter.lua")
   	end    
 })
+
 Tab:AddButton({
 	Name = "Server Hop",
 	Callback = function()
       		Loadscript("ServerHop.lua")
+  	end    
+})
+
+local Section = Tab:AddSection({
+	Name = "made by Vaehz on YT"
+})
+
+Tab:AddButton({
+	Name = "Product Faker v2",
+	Callback = function()
+      		loadstring(game:HttpGet("https://loadstring.net/raw/Va8W0lE1PS"))()
+  	end    
+})
+
+Tab:AddButton({
+	Name = "Brainrot Police",
+	Callback = function()
+      		loadstring(game:HttpGet("https://loadstring.net/raw/PSH2TOWUGP"))()
   	end    
 })
 
@@ -85,7 +169,6 @@ Tab:AddButton({
 	Name = "Emote Wheel",
 	Callback = function()
       		Loadscript("EmoteWheel.lua")
-			Xen0UI:Destroy()
   	end    
 })
 
@@ -93,7 +176,6 @@ Tab:AddButton({
 	Name = "Axirian FE",
 	Callback = function()
       		Loadscript("AxirianFE.lua")
-			  Xen0UI:Destroy()
   	end    
 })
 
@@ -101,7 +183,6 @@ Tab:AddButton({
 	Name = "Invincible Animation",
 	Callback = function()
       		Loadscript("Invincible.lua")
-			  Xen0UI:Destroy()
   	end    
 })
 
@@ -109,7 +190,6 @@ Tab:AddButton({
 	Name = "Egor Animation [maybe outdated]",
 	Callback = function()
       		Loadscript("Egor.lua")
-			  Xen0UI:Destroy()
   	end    
 })
 
@@ -117,7 +197,6 @@ Tab:AddButton({
 	Name = "Server Hop",
 	Callback = function()
       		Loadscript("ServerHop.lua")
-			  Xen0UI:Destroy()
   	end    
 })
 
