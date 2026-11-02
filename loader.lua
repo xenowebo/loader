@@ -379,7 +379,7 @@ Tab:AddButton({
 Tab:AddButton({
 	Name = "Natural Disaster Survival",
 	Callback = function()
-      		Loadscript("Orbitium.lua")
+      		Loadscript("NaturalDisasterSurvival.lua")
 			Xen0UI:Destroy()
   	end    
 })
