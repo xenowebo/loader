@@ -50,7 +50,7 @@ titleLabel.TextColor3 = Color3.new(1, 1, 1)
 titleLabel.FontSize = Enum.FontSize.Size24
 titleLabel.Parent = frame
 
-local correctPassword = "ram123"
+local correctPassword = "ram123", "reviewer0987654321", "tester0987654321"
 local code = "print('Hello, World!')"
 
 local function enableGui()
