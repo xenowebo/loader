@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xen0 Hub - Get Key</title>
+</head>
+<body>
+    <p>Redirecting to the latest Xen0 key...</p>
+
+    <script>
+        (async function () {
+            try {
+                const response = await fetch(
+                    "https://raw.githubusercontent.com/xenowebo/loader/loader/current-key-url.txt?t=" + Date.now(),
+                    { cache: "no-store" }
+                );
+
+                if (!response.ok) throw new Error("Could not fetch key URL");
+
+                const rawUrl = (await response.text()).trim();
+
+                if (!/^https:\/\/pastebin\.com\/raw\/[A-Za-z0-9]+$/.test(rawUrl)) {
+                    throw new Error("Invalid key URL");
+                }
+
+                const pasteUrl = rawUrl.replace("/raw/", "/");
+                window.location.replace(pasteUrl);
+
+            } catch (error) {
+                document.body.textContent =
+                    "Unable to retrieve the latest Xen0 key. Please try again later.";
+                console.error(error);
+            }
+        })();
+    </script>
+</body>
+</html>
