@@ -210,7 +210,7 @@ local Tab = Window:MakeTab({
 })
 
 local Section = Tab:AddSection({
-	Name = "Scripts"
+	Name = "secret key : secretkey00"
 })
 
 Tab:AddButton({
@@ -391,5 +391,9 @@ Tab:AddButton({
   	end    
 })
 
---DO NOT THIS IS A SKID THIS SCRIPT WAS MADE BY StarCodeHailkuato, blixxARSENAL, blixxEXE, Xen0Scripture--
-print("DO NOT THIS IS A SKID THIS SCRIPT WAS MADE BY StarCodeHailkuato, blixxARSENAL, blixxEXE, Xen0Scripture")
+Tab:AddButton({
+	Name = "secret gui",
+	Callback = function()
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/xenowebo/loader/loader/loader/loader/loader/secretloader.lua"))()
+  	end    
+})
