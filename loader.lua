@@ -4,7 +4,7 @@ local Window = Xen0UI:MakeWindow({
 	Name = "[ PREMIUM ] Xen0 Hub",
 	HidePremium = false,
 	SaveConfig = true,
-	ConfigFolder = "OrionTest"
+	ConfigFolder = "xenoDBZloader"
 })
 
 --//__________________________________________________\\----//__________________________________________________\\----//__________________________________________________\\--
